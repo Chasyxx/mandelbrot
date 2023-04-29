@@ -8,7 +8,7 @@ class ComplexNumber {
 	 */
 	constructor(real, imag) {
 		this.real = real;
-		this.imag = imag !== null && imag !== void 0 ? imag : 0;
+		this.imag = imag??0;
 	}
 	/**
 	 * @returns the ComplexNumber with a flipped imaginary.
@@ -97,14 +97,18 @@ class ComplexNumber {
 		}
 	}
 	/**
-	 * Returns the magnitude and angle of the ComplexNumber.
-	 * @returns \{ magnitude, angle \}
+	 * Returns the angle of the ComplexNumber.
+	 * @returns {ComplexNumber} the angle of the ComplexNumber.
 	*/
-	getValues() {
-		return {
-			magnitude: Math.sqrt(this.real ** 2 + this.imag ** 2),
-			angle: Math.atan2(this.imag, this.real)
-		};
+	theta() {
+		return new ComplexNumber(Math.atan2(this.imag, this.real));
+	}
+	/**
+ 	 * Returns the absolute value (magnitude) of the ComplexNumber.
+ 	 * @returns {ComplexNumber} The absolute value (magnitude) of the ComplexNumber.
+ 	*/
+	abs() {
+		return new ComplexNumber(Math.sqrt(this.real ** 2 + this.imag ** 2));
 	}
 	/**
 	 * Returns a string representation of the ComplexNumber.
@@ -129,29 +133,29 @@ const height = canvas.height;
 function getPosition(x, y) {
 	const xN = x / width * 4 - 2;
 	const yN = y / height * 4 - 2;
-	return new ComplexNumber(xN-0.5, yN);
+	return new ComplexNumber(xN - 0.5, yN);
 }
 
 const code = document.getElementById('FUNCTION')
 const TestNumber = new ComplexNumber(0, 0)
 const button = document.getElementById('BUTTON')
 const others = {
-	constant: () => {return new ComplexNumber()}
+	constant: () => { return new ComplexNumber() }
 }
 let Func = null
 
 function setFunction(codeText) {
 	const oldFunc = Func
 	let params = Object.getOwnPropertyNames(Math)
-	let values = params.map(k=>Math[k])
+	let values = params.map(k => Math[k])
 	const params2 = Object.getOwnPropertyNames(others)
-	const values2 = params2.map(k=>others[k])
+	const values2 = params2.map(k => others[k])
 	params = params.concat(params2)
 	values = values.concat(values2)
 	params.push('constant')
-	values.push((a,b)=>{return new ComplexNumber(a,b)})
+	values.push((a, b) => { return new ComplexNumber(a, b) })
 	try {
-		Func = new Function(...params, 'Z,C', codeText).bind(globalThis,...values)
+		Func = new Function(...params, 'Z,C', codeText).bind(globalThis, ...values)
 		Func(TestNumber, TestNumber)
 		document.getElementById("error").innerHTML = "No Error"
 	} catch (err) {
@@ -161,21 +165,25 @@ function setFunction(codeText) {
 }
 
 function drawPixel(x, y, IterationCount) {
-		const C = getPosition(x, y);
-		let Z = new ComplexNumber(C.real, C.imag); // Create a new instance for squared value
+	const C = getPosition(x, y);
+	let Z = new ComplexNumber(C.real, C.imag); // Create a new instance for squared value
 	let diverges = 0;
 	for (let i = 0; i < IterationCount; i++) {
-		Z = Func(Z, C); // Use the squared value in the loop
-		if (Z.getValues().magnitude > 2) {
-			diverges = Math.floor(i*(255/20))+1;
+		Z = Func(Z, C);
+		if(Z === undefined || /^number$|^boolean$|^function$/.test(typeof Z)) {
+			document.getElementById("error").innerText="A complex number must be returned..."
+			return true
+		} // Use the squared value in the loop
+		if (Z.abs().real > 4) {
+			diverges = Math.floor(i * (255 / 20)) + 1;
 			break;
 		}
 	}
 	let Color = "#fff"
 	if (diverges) {
-		let val = Math.min(255,(diverges%768)).toString(16)
-		let val2 = Math.max(0,Math.min(255,(diverges%768)-256)).toString(16)
-		let val3 = Math.max(0,Math.min(255,(diverges%768)-512)).toString(16)
+		let val = Math.min(255, (diverges % 768)).toString(16)
+		let val2 = Math.max(0, Math.min(255, (diverges % 768) - 256)).toString(16)
+		let val3 = Math.max(0, Math.min(255, (diverges % 768) - 512)).toString(16)
 		val = val.length == 1 ? "0" + val : val
 		val2 = val2.length == 1 ? "0" + val2 : val2
 		val3 = val3.length == 1 ? "0" + val3 : val3
@@ -183,13 +191,21 @@ function drawPixel(x, y, IterationCount) {
 	}
 	ctx.fillStyle = Color
 	ctx.fillRect(x, y, 1, 1);
+	return false
 }
 
 async function DrawFractal() {
 	const IC = document.getElementById('IC').value
+	let stop;
 	for (let x = 0; x < width; x++) {
 		for (let y = 0; y < height; y++) {
-			drawPixel(x, y, IC);
+			stop = drawPixel(x, y, IC);
+			if(stop){
+				break
+			}
+		}
+		if(stop){
+			break
 		}
 		ctx.fillStyle = "white"
 		ctx.fillRect(x + 1, 0, 5, height)

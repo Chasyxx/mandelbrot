@@ -80,3 +80,13 @@ flex {
 #pad {
 	border-right: 2px lime ridge;
 }
+
+header, details {
+	font-family: tomo;
+	font-size: large;
+	color: #fff;
+}
+
+ast {
+	color: #c24
+}

@@ -20,6 +20,29 @@
 		</flex>
 		<div align="center" id="error">No Error</div>
 	</div>
+	<article>
+		<details id="details">
+			In the textbox is a language known as FEL. FEL is short for "Fractal Engine Language" And is basically JS, but with these changes:
+			<ol>
+				<li>ComplexNumbers exist. These are the <i>CORE</i> of FEL. On a complex number, you can use various methods: <ul>
+					<li><b><i>.add(real,imag)</i></b> : Adds a real and imaginary component to the ComplexNumber.<ast>*</ast></li>
+					<li><b><i>.subtract(real,imag)</i></b> : Subtracts a real and imaginary component from the ComplexNumber.<ast>*</ast></li>
+					<li><b><i>.multiply(real,imag)</i></b> : Multiplies the ComplexNumber by another ComplexNumber.<ast>*</ast></li>
+					<li><b><i>.divide(real,imag)</i></b> : Divides the ComplexNumber by another ComplexNumber.<ast>*</ast></li>
+					<li><b><i>.powerTo(real,imag)</i></b> : Multiplies the ComplexNumber by another ComplexNumber.<ast>*</ast></li>
+					<li><b><i>.abs()</i></b> : Returns the magnitude of the ComplexNumber.</li>
+					<li><b><i>.theta()</i></b> : Returns the angle of the ComplexNumber.</li>
+				</ul>You can make a constant ComplexNumber with constant(real,imag)<ast>*</ast>. You can chain operations on a ComplexNumber, and store various intermediate values beforehand.<br>
+				You can acess the real and imaginary components uaing .real and .imag. Example: 'Z.real'.
+				<ast>*</ast> If an imaginary component is not defined, it defaults to 0.</li>
+				<br>
+				<li><b><i>The return value is the next iteration of Z!</i></b> It's how Mandelbrot-like fractals work.<br>
+				C is the position of the pixel. It ranges from -2.5-2i to +1.5+2i.(REAL -2.5 to +1.5, IMAGINARY -2 to +2).<br><br>
+				Z is set to C initially, and is then iterated by <b>Your FEL formula.</b> If at any point it's magnitude escapes 4, it's colored based on when it does. If it doesn't escape within your <b>iteration count</b>, it's colored white.</li>
+			</ol>
+			The default code "return Z.powerTo(2).add(C.real,C.imag)" is an Implementation of <b>z<sup>2</sup>+C</b>, where Z is squared and then added to C, and the result is the next iteration of Z. <b>This is the Mandelbrot set fractal's formula.</b>
+		</details>
+	</article>
 </body>
 
 </html>
