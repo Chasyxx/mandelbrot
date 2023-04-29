@@ -1,0 +1,80 @@
+@font-face {
+	font-family: tomo;
+	src: url(tomo.ttf);
+}
+
+body {
+	background-image: linear-gradient(to bottom, #000, #020);
+	background-color: #040;
+}
+
+canvas {
+	width: 512px;
+	height: 512px;
+	background-color: #080;
+}
+
+textarea, select, input {
+	color: lime;
+	background-color: black;
+	border-bottom: 2px lime ridge;
+}
+
+textarea {
+	background-image: linear-gradient(to right, #000, #030);
+	resize: none;
+}
+
+select {
+	border-left: 2px lime ridge;
+	border-top: none;
+	border-right: none
+}
+
+input {
+	border-top: none;
+	border-left: 2px lime ridge;
+	border-right: none
+}
+
+button {
+	width: 20%;
+	color: lime;
+	background-image: linear-gradient(to right, #000, #080);
+	border: none;
+	border-bottom: 2px lime ridge
+}
+
+flex {
+	width: 512px;
+	display: flex;
+}
+
+.flexgrow {
+	flex-grow: 1;
+}
+
+.flex1 {
+	height: 480px;
+	width: 512px;
+}
+
+#flex2 {
+	height: 32px;
+}
+
+#maindiv {
+	width: 1024px;
+	padding-left: 12%;
+	padding-top: 4%;
+}
+
+#mainflex {
+	height: 512px
+}
+
+#error {
+	font-family: tomo;
+	font-size: large;
+	color: #fff;
+}
