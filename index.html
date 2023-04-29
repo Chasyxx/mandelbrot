@@ -1,0 +1,48 @@
+<html>
+
+<head>
+	<script src="script.js" type="module"></script>
+</head>
+<style>
+	canvas {
+		width: 512px;
+		height: 512px;
+		background-color: #800000;
+	}
+
+	textarea {
+		color: lime;
+		background-color: black;
+	}
+
+	button {
+		width: 20%
+	}
+
+	flex {
+		width: 512px;
+		display: flex;
+		height: 48px
+	}
+
+	.flexgrow {
+		flex-grow: 1;
+	}
+</style>
+<title>Chasyxx's Fractal Generator</title>
+
+<body>
+	<canvas width="1920" height="1080" id="canvas"></canvas>
+	<flex><textarea spellcheck="false" id="FUNCTION" class="flexgrow">Z.powerTo(2).add(C.real,C.imag)</textarea><button id="BUTTON">Generate</button>
+	</flex>
+	<flex><select id="mode">
+			<option value="Mandelbrot">Mandelbrot</option>
+			<option value="Julia">Julia</option>
+		</select>
+		<input type='number' title="Julia Real" class="flexgrow" id="JULIA-R" value="1">
+		<input type='number' title="Julia Imaginary" class="flexgrow" id="JULIA-I" value="1">
+	</flex>
+	<div id="error">No Error</div>
+</body>
+
+</html>
