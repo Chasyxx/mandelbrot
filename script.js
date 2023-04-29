@@ -173,9 +173,9 @@ function drawPixel(x, y, IterationCount) {
 	}
 	let Color = "#fff"
 	if (diverges) {
-		let val = (diverges&255).toString(16)
-		let val2 = (diverges>>4&255).toString(16)
-		let val3 = (diverges>>8&255).toString(16)
+		let val = Math.min(255,(diverges%768)).toString(16)
+		let val2 = Math.max(0,Math.min(255,(diverges%768)-256)).toString(16)
+		let val3 = Math.max(0,Math.min(255,(diverges%768)-512)).toString(16)
 		val = val.length == 1 ? "0" + val : val
 		val2 = val2.length == 1 ? "0" + val2 : val2
 		val3 = val3.length == 1 ? "0" + val3 : val3
