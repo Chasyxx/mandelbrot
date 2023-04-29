@@ -136,12 +136,23 @@ function getPosition(x, y) {
 const code = document.getElementById('FUNCTION')
 const TestNumber = new ComplexNumber(0, 0)
 const button = document.getElementById('BUTTON')
+const others = {
+	constant: () => {return new ComplexNumber()}
+}
 let Func = null
 
 function setFunction(codeText) {
 	const oldFunc = Func
+	let params = Object.getOwnPropertyNames(Math)
+	let values = params.map(k=>Math[k])
+	const params2 = Object.getOwnPropertyNames(others)
+	const values2 = params2.map(k=>others[k])
+	params = params.concat(params2)
+	values = values.concat(values2)
+	params.push('constant')
+	values.push((a,b)=>{return new ComplexNumber(a,b)})
 	try {
-		Func = new Function('Z,C', codeText)
+		Func = new Function(...params, 'Z,C', codeText).bind(globalThis,...values)
 		Func(TestNumber, TestNumber)
 		document.getElementById("error").innerHTML = "No Error"
 	} catch (err) {
@@ -150,15 +161,9 @@ function setFunction(codeText) {
 	}
 }
 
-function drawPixel(x, y, c) {
-	let C, Z;
-	if (document.getElementById('mode').value == 'Julia') {
-		C = new ComplexNumber(c.real, c.imag);
-		Z = getPosition(x, y);
-	} else {
-		C = getPosition(x, y);
-		Z = new ComplexNumber(C.real, C.imag); // Create a new instance for squared value
-	}
+function drawPixel(x, y) {
+		const C = getPosition(x, y);
+		let Z = new ComplexNumber(C.real, C.imag); // Create a new instance for squared value
 	let diverges = 0;
 	for (let i = 0; i < IterationCount; i++) {
 		Z = Func(Z, C); // Use the squared value in the loop
