@@ -130,7 +130,7 @@ const IterationCount = 20;
 function getPosition(x, y) {
 	const xN = x / width * 4 - 2;
 	const yN = y / height * 4 - 2;
-	return new ComplexNumber(xN, yN);
+	return new ComplexNumber(xN-0.5, yN);
 }
 
 const code = document.getElementById('FUNCTION')
