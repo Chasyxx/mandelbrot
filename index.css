@@ -14,35 +14,33 @@ canvas {
 	background-color: #080;
 }
 
-textarea, select, input {
+textarea, input{
 	color: lime;
 	background-color: black;
-	border-bottom: 2px lime ridge;
-}
-
-textarea {
-	background-image: linear-gradient(to right, #000, #030);
-	resize: none;
-}
-
-select {
-	border-left: 2px lime ridge;
-	border-top: none;
-	border-right: none
 }
 
 input {
-	border-top: none;
-	border-left: 2px lime ridge;
-	border-right: none
+	border: 2px lime ridge;
+	border-right: none;
+}
+
+textarea {
+	background-image: linear-gradient(to right, #000, #080);
+	resize: none;
+	border: 2px lime ridge;
+	border-bottom: none;
+	border-right: none;
+	height: 480px;
+	width: 512px;
 }
 
 button {
-	width: 20%;
+	width: 512px; height: 32px;
 	color: lime;
 	background-image: linear-gradient(to right, #000, #080);
-	border: none;
-	border-bottom: 2px lime ridge
+	border: 2px lime ridge;
+	border-right: none;
+	font-family: tomo;
 }
 
 flex {
@@ -77,4 +75,8 @@ flex {
 	font-family: tomo;
 	font-size: large;
 	color: #fff;
+}
+
+#pad {
+	border-right: 2px lime ridge;
 }

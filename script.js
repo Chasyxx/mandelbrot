@@ -125,7 +125,6 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 const width = canvas.width;
 const height = canvas.height;
-const IterationCount = 20;
 
 function getPosition(x, y) {
 	const xN = x / width * 4 - 2;
@@ -161,32 +160,36 @@ function setFunction(codeText) {
 	}
 }
 
-function drawPixel(x, y) {
+function drawPixel(x, y, IterationCount) {
 		const C = getPosition(x, y);
 		let Z = new ComplexNumber(C.real, C.imag); // Create a new instance for squared value
 	let diverges = 0;
 	for (let i = 0; i < IterationCount; i++) {
 		Z = Func(Z, C); // Use the squared value in the loop
 		if (Z.getValues().magnitude > 2) {
-			diverges = Math.floor((i / IterationCount) * 254)+1;
+			diverges = Math.floor(i*(255/20))+1;
 			break;
 		}
 	}
 	let Color = "#fff"
 	if (diverges) {
-		let val = diverges.toString(16)
+		let val = (diverges&255).toString(16)
+		let val2 = (diverges>>4&255).toString(16)
+		let val3 = (diverges>>8&255).toString(16)
 		val = val.length == 1 ? "0" + val : val
-		Color = `#00${val}${val}`
+		val2 = val2.length == 1 ? "0" + val2 : val2
+		val3 = val3.length == 1 ? "0" + val3 : val3
+		Color = `#${val}${val2}${val3}`
 	}
 	ctx.fillStyle = Color
 	ctx.fillRect(x, y, 1, 1);
 }
 
 async function DrawFractal() {
-	const C = new ComplexNumber(document.getElementById('JULIA-R').value, document.getElementById('JULIA-I').value)
+	const IC = document.getElementById('IC').value
 	for (let x = 0; x < width; x++) {
 		for (let y = 0; y < height; y++) {
-			drawPixel(x, y, C);
+			drawPixel(x, y, IC);
 		}
 		ctx.fillStyle = "white"
 		ctx.fillRect(x + 1, 0, 5, height)

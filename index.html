@@ -12,17 +12,9 @@
 <body>
 	<div id="maindiv">
 		<flex id="mainflex">
-			<div>
-				<textarea spellcheck="false" id="FUNCTION" class="flex1">return Z.powerTo(2).add(C.real,C.imag)</textarea>
-				<flex id="flex2"><select id="mode">
-						<option value="Mandelbrot">Mandelbrot</option>
-						<option value="Julia">Julia</option>
-					</select>
-					<input type='number' title="Julia Real" class="flexgrow" id="JULIA-R" value="1">
-					<input type='number' title="Julia Imaginary" class="flexgrow" id="JULIA-I" value="1">
-					<button
-						id="BUTTON">Generate</button>
-				</flex>
+			<div id="pad">
+				<textarea spellcheck="false" id="FUNCTION">return Z.powerTo(2).add(C.real,C.imag)</textarea>
+				<flex><input type="number" value="20" id="IC" title="Iteration Count"><button id="BUTTON">Generate</button></flex>
 			</div>
 			<canvas width="1024" height="1024" id="canvas"></canvas>
 		</flex>
