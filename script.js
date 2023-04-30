@@ -23,7 +23,7 @@ class ComplexNumber {
 	 * @returns {ComplexNumber} The result of the addition.
 	*/
 	add(val, valImag) {
-		return new ComplexNumber(this.real + val, this.imag + valImag);
+		return new ComplexNumber(this.real + val, this.imag + (valImag??0));
 	}
 	/**
 	 * Subtracts form the ComplexNumber.
@@ -32,7 +32,7 @@ class ComplexNumber {
 	 * @returns {ComplexNumber} The result of the subtraction.
 	*/
 	subtract(val, valImag) {
-		return new ComplexNumber(this.real - val, this.imag - valImag);
+		return new ComplexNumber(this.real - val, this.imag - (valImag??0));
 	}
 	/**
 	 * Multiplies the ComplexNumber by another complex number.
@@ -173,7 +173,11 @@ function drawPixel(x, y, IterationCount) {
 		if(Z === undefined || /^number$|^boolean$|^function$/.test(typeof Z)) {
 			document.getElementById("error").innerText="A complex number must be returned..."
 			return true
-		} // Use the squared value in the loop
+		}
+		if(isNaN(Z?.real??NaN)||isNaN(Z?.imag??NaN)) {
+			document.getElementById("error").innerText="NaN"
+			return true
+		}
 		if (Z.abs().real > 4) {
 			diverges = Math.floor(i * (255 / 20)) + 1;
 			break;
