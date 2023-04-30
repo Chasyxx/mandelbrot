@@ -204,11 +204,11 @@ async function DrawFractal() {
 	for (let x = 0; x < width; x++) {
 		for (let y = 0; y < height; y++) {
 			stop = drawPixel(x, y, IC);
-			if(stop){
+			if(stop&&y==0){
 				break
 			}
 		}
-		if(stop){
+		if(stop&&x==0){
 			break
 		}
 		ctx.fillStyle = "white"
