@@ -133,14 +133,15 @@ const height = canvas.height;
 function getPosition(x, y) {
 	const xN = x / width * 4 - 2;
 	const yN = y / height * 4 - 2;
-	return new ComplexNumber(xN - 0.5, yN);
+	return new ComplexNumber(xN, -yN);
 }
 
 const code = document.getElementById('FUNCTION')
 const TestNumber = new ComplexNumber(0, 0)
 const button = document.getElementById('BUTTON')
+const errorElem = document.getElementById('error')
 const others = {
-	constant: () => { return new ComplexNumber() }
+	constant: (a,b) => { return new ComplexNumber(a,b) }
 }
 let Func = null
 
@@ -152,14 +153,12 @@ function setFunction(codeText) {
 	const values2 = params2.map(k => others[k])
 	params = params.concat(params2)
 	values = values.concat(values2)
-	params.push('constant')
-	values.push((a, b) => { return new ComplexNumber(a, b) })
 	try {
 		Func = new Function(...params, 'Z,C', codeText).bind(globalThis, ...values)
 		Func(TestNumber, TestNumber)
-		document.getElementById("error").innerHTML = "No Error"
+		errorElem.innerHTML = "No Error"
 	} catch (err) {
-		document.getElementById("error").innerText = err.message
+		errorElem.innerText = err.message
 		Func = oldFunc
 	}
 }
@@ -171,11 +170,10 @@ function drawPixel(x, y, IterationCount) {
 	for (let i = 0; i < IterationCount; i++) {
 		Z = Func(Z, C);
 		if(Z === undefined || /^number$|^boolean$|^function$/.test(typeof Z)) {
-			document.getElementById("error").innerText="A complex number must be returned..."
-			return true
+			errorElem.innerText="A complex number must be returned..."
+			return "emergency"
 		}
 		if(isNaN(Z?.real??NaN)||isNaN(Z?.imag??NaN)) {
-			document.getElementById("error").innerText="NaN"
 			return true
 		}
 		if (Z.abs().real > 4) {
@@ -201,14 +199,24 @@ function drawPixel(x, y, IterationCount) {
 async function DrawFractal() {
 	const IC = document.getElementById('IC').value
 	let stop;
+	let maxNaNs = 0;
 	for (let x = 0; x < width; x++) {
+		stop = 0
 		for (let y = 0; y < height; y++) {
-			stop = drawPixel(x, y, IC);
-			if(stop&&y==0){
-				break
+			let status = drawPixel(x, y, IC)
+			if(status===true){
+				stop++
+				stop>maxNaNs?(maxNaNs=stop):0
+				errorElem.innerText = "Max NaNs found in 1 column is " + maxNaNs
+				if(stop>256){
+					errorElem.innerText= "Too many NaNs. Halting."
+					break
+				}
+			} else if (status==="emergency"){
+				stop=257;break
 			}
 		}
-		if(stop&&x==0){
+		if(stop>256){
 			break
 		}
 		ctx.fillStyle = "white"
@@ -219,7 +227,7 @@ async function DrawFractal() {
 
 button.onclick = () => {
 	setFunction(code.value)
-	if (document.getElementById("error").innerHTML == "No Error") { DrawFractal() }
+	if (errorElem.innerHTML == "No Error") { DrawFractal() }
 }
 
 //DrawFractal()
