@@ -14,14 +14,23 @@ canvas {
 	background-color: #080;
 }
 
-textarea, input{
-	color: lime;
-	background-color: black;
-}
-
-input {
+#IC {
 	border: 2px lime ridge;
 	border-right: none;
+	width: 90px;
+	color: lime;
+	background-image:linear-gradient(to right, #000, #010);
+}
+
+.tube {
+	border: 2px lime ridge;
+	border-right: none;
+	background-image:linear-gradient(to right, #010, #030);
+	font-family: tomo;
+	color: lime;
+	font-size: small;
+	padding: 4px 4px 0 8px;
+	width: 190px
 }
 
 textarea {
@@ -32,12 +41,14 @@ textarea {
 	border-right: none;
 	height: 480px;
 	width: 512px;
+	color: lime;
+	background-color: black;
 }
 
 button {
 	width: 512px; height: 32px;
 	color: lime;
-	background-image: linear-gradient(to right, #000, #080);
+	background-image: linear-gradient(to right, #030, #080);
 	border: 2px lime ridge;
 	border-right: none;
 	font-family: tomo;
@@ -48,17 +59,12 @@ flex {
 	display: flex;
 }
 
+.flex {
+	display: flex;
+}
+
 .flexgrow {
 	flex-grow: 1;
-}
-
-.flex1 {
-	height: 480px;
-	width: 512px;
-}
-
-#flex2 {
-	height: 32px;
 }
 
 #maindiv {

@@ -198,6 +198,7 @@ function drawPixel(x, y, IterationCount) {
 
 async function DrawFractal() {
 	const IC = document.getElementById('IC').value
+	const NaNCHK = document.getElementById('NC').checked
 	let stop;
 	let maxNaNs = 0;
 	for (let x = 0; x < width; x++) {
@@ -208,7 +209,7 @@ async function DrawFractal() {
 				stop++
 				stop>maxNaNs?(maxNaNs=stop):0
 				errorElem.innerText = "Max NaNs found in 1 column is " + maxNaNs
-				if(stop>256){
+				if(stop>256&&NaNCHK){
 					errorElem.innerText= "Too many NaNs. Halting."
 					break
 				}
@@ -216,7 +217,7 @@ async function DrawFractal() {
 				stop=257;break
 			}
 		}
-		if(stop>256){
+		if(stop>256&&NaNCHK){
 			break
 		}
 		ctx.fillStyle = "white"
